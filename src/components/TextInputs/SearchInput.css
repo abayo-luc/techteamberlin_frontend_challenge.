@@ -1,0 +1,16 @@
+.input-group {
+	width: 50%;
+}
+.input-group.md-form.form-sm.search input {
+	border: 1px solid #bdbdbd;
+	border-radius: 0.3rem;
+	font-size: 16px;
+}
+.input-group.md-form.form-sm.search input[type=text]:focus:not([readonly]).purple-border {
+	border: 1px solid #332e73;
+	box-shadow: none;
+}
+
+.form-control {
+	height: 2rem !important;
+}

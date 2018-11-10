@@ -1,0 +1,17 @@
+.page-item.active .page-btn {
+	z-index: 1;
+	color: #fff;
+	background-color: #332e73;
+	border-color: #332e73;
+}
+
+.page-btn {
+	position: relative;
+	display: block;
+	padding: .1rem .5rem;
+	margin-left: -1px;
+	line-height: 1.25;
+	color: #332e73;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+}
