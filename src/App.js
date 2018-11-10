@@ -9,7 +9,7 @@ class App extends Component {
 				<div className="card mb-4">
 					<div className="card-body">
 						<div className="col-md-12">
-							<h2 class="pt-3 pb-4 text-center font-bold font-up title">
+							<h2 className="pt-3 pb-4 text-center font-bold font-up title">
 								The Last 20 SpaceX Launches
 							</h2>
 							<SearchInput />
