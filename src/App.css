@@ -1,0 +1,19 @@
+.title {
+	color: #332e73;
+	text-transform: capitalize;
+}
+.secondary-title {
+	color: #2e2e2e;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 2px solid #dee2e6;
+	color: #2e2e2e;
+}
+.table td,
+.table th {
+	padding: .3rem;
+	vertical-align: top;
+	border-top: .5px solid #dee2e6;
+}
