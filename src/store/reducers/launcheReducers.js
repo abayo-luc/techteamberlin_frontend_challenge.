@@ -5,8 +5,9 @@ import {
 } from '../actions/type';
 
 const INITIAL_STATE = {
-	launches: {},
-	isLoading: true
+	launches: [],
+	isLoading: true,
+	errors: null
 };
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -14,6 +15,21 @@ export default (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				isLoading: true
+			};
+		}
+		case QUERY_LAUCNHES_SUCESS: {
+			return {
+				...state,
+				launches: [...action.payload],
+				isLoading: false,
+				errors: null
+			};
+		}
+		case QUERY_LAUNCHES_FAILED: {
+			return {
+				...state,
+				isLoading: false,
+				errors: action.payload
 			};
 		}
 		default:
