@@ -4,4 +4,4 @@ After cloling run `npm install` to install all dependencies, before runing the s
 
 ### `npm start`
 Will runs the app in the development mode.<br>
-and the ap can be accessed on [http://localhost:3000](http://localhost:3000)and view it in the browers. 
+and the ap can be accessed on [http://localhost:3000](http://localhost:3000)and view it in the brower. 
