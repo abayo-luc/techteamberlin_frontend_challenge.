@@ -1,54 +1,32 @@
 import React from 'react';
 import './pagination.css';
-const Pagination = () => {
+const Pagination = props => {
 	return (
 		<div className="d-flex justify-content-center">
 			<nav className="my-4 pt-2">
 				<ul className="pagination pagination-circle pg-blue mb-0">
-					<li className="page-item disabled clearfix d-none d-md-block">
-						<a className="page-btn" href="/">
-							First
-						</a>
+					<li
+						className="page-item disabled clearfix d-none d-md-block"
+						onClick={props.goFirst}
+					>
+						<p className="page-btn">First</p>
 					</li>
 					<li className="page-item disabled">
-						<a className="page-btn" aria-label="Previous" href="/">
+						<p className="page-btn" aria-label="Previous">
 							<span aria-hidden="true">«</span>
-						</a>
+						</p>
 					</li>
-					<li className="page-item active">
-						<a className="page-btn" href="/">
-							1
-						</a>
-					</li>
+					{props.children}
 					<li className="page-item">
-						<a className="page-btn" href="/">
-							2
-						</a>
-					</li>
-					<li className="page-item">
-						<a className="page-btn" href="/">
-							3
-						</a>
-					</li>
-					<li className="page-item">
-						<a className="page-btn" href="/">
-							4
-						</a>
-					</li>
-					<li className="page-item">
-						<a className="page-btn" href="/">
-							5
-						</a>
-					</li>
-					<li className="page-item">
-						<a className="page-btn" aria-label="Next" href="/">
+						<p className="page-btn" aria-label="Next">
 							<span aria-hidden="true">»</span>
-						</a>
+						</p>
 					</li>
-					<li className="page-item clearfix d-none d-md-block">
-						<a className="page-btn" href="/">
-							Last
-						</a>
+					<li
+						className="page-item clearfix d-none d-md-block"
+						onClick={props.goLast}
+					>
+						<p className="page-btn">Last</p>
 					</li>
 				</ul>
 			</nav>

@@ -1,13 +1,15 @@
 import {
 	QUERY_LAUNCHES,
 	QUERY_LAUCNHES_SUCESS,
-	QUERY_LAUNCHES_FAILED
+	QUERY_LAUNCHES_FAILED,
+	CHANGE_ITEM_PER_PAGE
 } from '../actions/type';
 
 const INITIAL_STATE = {
 	launches: [],
 	isLoading: true,
-	errors: null
+	errors: null,
+	perPage: 5
 };
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -30,6 +32,12 @@ export default (state = INITIAL_STATE, action) => {
 				...state,
 				isLoading: false,
 				errors: action.payload
+			};
+		}
+		case CHANGE_ITEM_PER_PAGE: {
+			return {
+				...state,
+				perPage: action.payload
 			};
 		}
 		default:

@@ -5,8 +5,10 @@ import Pagination from './components/paginations/Pagination';
 import SearchInput from './components/TextInputs/SearchInput';
 import Th from './components/Headers/Th-component';
 import { connect } from 'react-redux';
-import { contains } from './utils/helperFunctions';
+import { contains, paginate } from './utils/helperFunctions';
 import Loading from './components/Loading';
+import SelectInput from './components/TextInputs/SelectInput';
+import { changeItemsPerPage } from './store/actions/launcheActions';
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -15,7 +17,9 @@ class App extends Component {
 			data: [],
 			isLoading: true,
 			errors: null,
-			sortOrder: null
+			sortOrder: null,
+			page: 0,
+			perPage: 5
 		};
 	}
 	_onSearch = e => {
@@ -25,19 +29,26 @@ class App extends Component {
 			return contains(launch['mission_name'], query);
 		});
 		this.setState({
-			data: [...results]
+			data: [...paginate(results, this.state.perPage)],
+			page: 0
 		});
 	};
 	_sortBy = key => {
-		const data = orderBy(this.state.data, [key], 'asc');
+		const data = orderBy(this.state.fullData, [key], 'asc');
 		this.setState({
-			data
+			data: [...paginate(data, this.state.perPage)]
 		});
+	};
+	_isActive = index => {
+		if (index === this.state.page) {
+			return 'active';
+		}
 	};
 	render() {
 		if (this.state.isLoading) {
 			return <Loading />;
 		}
+		console.log(this.state.data.length);
 		return (
 			<div className="container-fluid app">
 				<div className="card">
@@ -46,7 +57,20 @@ class App extends Component {
 							<h2 className="pt-3 pb-4 text-center title">
 								The Last 20 SpaceX Launches
 							</h2>
-							<SearchInput onChange={e => this._onSearch(e)} />
+							<div className="row">
+								<div className="col-3">
+									<SelectInput
+										values={[5, 10, 20]}
+										onChange={e =>
+											this.props.changeItemsPerPage(
+												parseInt(e.target.value, 10)
+											)}
+									/>
+								</div>
+								<div className="col-8">
+									<SearchInput onChange={e => this._onSearch(e)} />
+								</div>
+							</div>
 						</div>
 					</div>
 					<table className="table table-striped">
@@ -68,50 +92,79 @@ class App extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{this.state.data.map((launch, key) => {
-								return (
-									<tr key={key}>
-										<th scope="row">
-											{key + 1}
-										</th>
-										<td>
-											{launch['flight_number']}
-										</td>
-										<td>
-											{launch['mission_name']}
-										</td>
-										<td>
-											{launch.rocket['rocket_name']}
-										</td>
-										<td>
-											{new Date(launch['launch_date_utc']).toDateString()}
-										</td>
-									</tr>
-								);
-							})}
+							{this.state.data.length === 0
+								? <p>..</p>
+								: this.state.data[this.state.page].map((launch, key) => {
+										return (
+											<tr key={key}>
+												<th scope="row">
+													{key + 1}
+												</th>
+												<td>
+													{launch['flight_number']}
+												</td>
+												<td>
+													{launch['mission_name']}
+												</td>
+												<td>
+													{launch.rocket['rocket_name']}
+												</td>
+												<td>
+													{new Date(launch['launch_date_utc']).toDateString()}
+												</td>
+											</tr>
+										);
+									})}
 						</tbody>
 					</table>
-					<Pagination />
+					{this.state.data.length > 1 &&
+						<Pagination
+							goFirst={() =>
+								this.setState({
+									page: 0
+								})}
+							goLast={() =>
+								this.setState(state => ({
+									page: state.data.length - 1
+								}))}
+						>
+							{this.state.data.map((item, index) => {
+								return (
+									<li
+										className={`page-item ${this._isActive(index)}`}
+										key={index}
+										onClick={() => this.setState({ page: index })}
+									>
+										<p className="page-btn">
+											{index + 1}
+										</p>
+									</li>
+								);
+							})}
+						</Pagination>}
 				</div>
 			</div>
 		);
 	}
 	componentWillReceiveProps(nextProps) {
-		const { isLoading, errors, launches } = nextProps;
+		const { isLoading, errors, launches, perPage } = nextProps;
+		console.log(paginate(launches, perPage));
 		this.setState({
 			isLoading,
 			errors,
-			data: [...launches],
+			perPage,
+			data: [...paginate(launches, perPage)],
 			fullData: [...launches]
 		});
 	}
 }
 const mapStateToProps = state => {
-	const { isLoading, launches, errors } = state.launches;
+	const { isLoading, launches, errors, perPage } = state.launches;
 	return {
 		isLoading,
 		launches,
-		errors
+		errors,
+		perPage
 	};
 };
-export default connect(mapStateToProps, {})(App);
+export default connect(mapStateToProps, { changeItemsPerPage })(App);

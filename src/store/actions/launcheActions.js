@@ -3,9 +3,15 @@ import axios from 'axios';
 import {
 	QUERY_LAUNCHES,
 	QUERY_LAUCNHES_SUCESS,
-	QUERY_LAUNCHES_FAILED
+	QUERY_LAUNCHES_FAILED,
+	CHANGE_ITEM_PER_PAGE
 } from './type';
-
+export const changeItemsPerPage = value => {
+	return {
+		type: CHANGE_ITEM_PER_PAGE,
+		payload: value
+	};
+};
 export const queryLaunches = () => {
 	return dispatch => {
 		dispatch({ type: QUERY_LAUNCHES });
@@ -18,8 +24,7 @@ export const queryLaunches = () => {
 				dispatch({ type: QUERY_LAUCNHES_SUCESS, payload: data });
 			})
 			.catch(err => {
-				const { data } = err.response;
-				dispatch({ type: QUERY_LAUNCHES_FAILED, payload: data });
+				dispatch({ type: QUERY_LAUNCHES_FAILED, payload: err.response });
 			});
 	};
 };

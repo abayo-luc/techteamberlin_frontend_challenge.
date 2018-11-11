@@ -1,12 +1,14 @@
 .input-group {
-	width: 50%;
+	width: 100%;
 }
-.input-group.md-form.form-sm.search input {
+.input-group.md-form.form-sm.search input,
+select {
 	border: 1px solid #bdbdbd;
 	border-radius: 0.3rem;
 	font-size: 16px;
 }
-.input-group.md-form.form-sm.search input[type=text]:focus:not([readonly]).purple-border {
+.input-group.md-form.form-sm.search input[type=text]:focus:not([readonly]).purple-border,
+select:active {
 	border: 1px solid #332e73;
 	box-shadow: none;
 }
